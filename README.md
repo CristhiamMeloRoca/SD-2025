@@ -1,12 +1,14 @@
 # Progetto Sistemi Distribuiti 2024-2025 - KCM Distributed
 
-Lo scheletro espone la struttura che il progetto deve seguire. Al posto di questo paragrafo è necessario scrivere il nome del progetto e una breve descrizione.
+Progetto: SD-2025
+
+Progetto Sistemi Distribuiti 2024-2025
 
 ## Componenti del gruppo
 
-* Cristhiam Melo Roca 903827 c.meloroca@campus.unimib.it
-*  Maria Zakhary 914286 m.zakhary@campus.unimib.it
-*  Kristjana Velaj 914698 k.velaj@campus.unimib.it
+* Cristhiam Melo Roca (903827) <c.meloroca@campus.unimib.it>
+*  Maria Zakhary (914286) <m.zakhary@campus.unimib.it>
+*  Kristjana Velaj (914698) <k.velaj@campus.unimib.it>
 
 ## Compilazione ed esecuzione
 
