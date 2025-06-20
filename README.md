@@ -34,4 +34,4 @@ Il database è una semplice applicazione Java. Si possono utilizzare i seguenti 
 * `mvn compile`: per compilare l'applicazione,
 * `mvn exec:java`: per avviare l'applicazione (presuppone che la classe principale sia `Main.java`). Si pone in ascolto all'indirizzo `localhost` alla porta `3030`.
 
-CRI FAI SCHIFO
+
