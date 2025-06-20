@@ -7,7 +7,7 @@ Progetto Sistemi Distribuiti 2024-2025
 ## Componenti del gruppo
 
 * Cristhiam Melo Roca (903827) <c.meloroca@campus.unimib.it>
-*  Maria Zakhary (914286) <m.zakhary@campus.unimib.it>
+*  Maria Zakhary (914286) <m.zakhary2@campus.unimib.it>
 *  Kristjana Velaj (914698) <k.velaj@campus.unimib.it>
 
 ## Compilazione ed esecuzione
@@ -33,3 +33,5 @@ Il database è una semplice applicazione Java. Si possono utilizzare i seguenti 
 * `mvn clean`: per ripulire la cartella dai file temporanei,
 * `mvn compile`: per compilare l'applicazione,
 * `mvn exec:java`: per avviare l'applicazione (presuppone che la classe principale sia `Main.java`). Si pone in ascolto all'indirizzo `localhost` alla porta `3030`.
+
+CRI FAI SCHIFO
