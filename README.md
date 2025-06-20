@@ -1,10 +1,12 @@
-# Progetto Sistemi Distribuiti 2024-2025 - NOME GRUPPO
+# Progetto Sistemi Distribuiti 2024-2025 - KCM Distributed
 
 Lo scheletro espone la struttura che il progetto deve seguire. Al posto di questo paragrafo è necessario scrivere il nome del progetto e una breve descrizione.
 
 ## Componenti del gruppo
 
-* Nome Cognome (Matricola) <email@campus.unimib.it>
+* Cristhiam Melo Roca 903827 c.meloroca@campus.unimib.it
+  Maria Zakhary 914286 m.zakhary@campus.unimib.it
+  Kristjana Velaj 914698 k.velaj@campus.unimib.it
 * ...
 
 ## Compilazione ed esecuzione
