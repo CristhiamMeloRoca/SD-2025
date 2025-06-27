@@ -2,9 +2,54 @@
 <html>
   <head>
     <title>Example page</title>
+    <style>
+              /* Stile generale del menu */
+      #menu-container { 
+        background-color: #3671ad;
+        padding: 0;
+      }
+
+      /* Rimuove il padding/margin predefinito */
+      #menu-container ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+      /* Stile dei singoli elementi del menu */
+      #menu-container li {
+        margin: 0;
+      }
+
+      /* Stile dei link */
+      #menu-container a {
+        display: block;
+        color: white;
+        padding: 14px 20px;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      /* Effetto hover */
+      #menu-container a:hover {
+        background-color: #478dd3;
+      }
+
+    </style>
   </head>
   <body data-server-no-reload>
-    <h2>HOLA World!</h2>
+<div id="menu-container">
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+    </ul>
+  </nav>
+</div>
+
+    
     <script>
       const API_URI = "http://localhost:8080";
 
