@@ -1,69 +1,18 @@
 <!DOCTYPE html>
-<html lang="it"></html>
+<html lang="it">
+<head>
   <meta charset="UTF-8">
   <title>Gestione Contributo e Buoni</title>
-  <head>
-    <title>Example page</title>
-    <style>
-              /* Stile generale del menu */
-      #menu-container { 
-        background-color: #3671ad;
-        padding: 0;
-      }
-
-      /* Rimuove il padding/margin predefinito */
-      #menu-container ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-      }
-
-      /* Stile dei singoli elementi del menu */
-      #menu-container li {
-        margin: 0;
-      }
-
-      /* Stile dei link */
-      #menu-container a {
-        display: block;
-        color: white;
-        padding: 14px 20px;
-        text-decoration: none;
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        transition: background-color 0.3s;
-      }
-
-      /* Effetto hover */
-      #menu-container a:hover {
-        background-color: #478dd3;
-      }
-
-    </style>
-  </head>
-  <body data-server-no-reload>
-<div id="menu-container">
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-    </ul>
-  </nav>
-</div>
-
-    
-    <script>
-      const API_URI = "http://localhost:8080";
-
-      window.onload = init();
-
-      async function init() {
-        // Iniziare qui.
-      }
-
-    </script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h2 { color: #333; }
+    .box { margin-bottom: 2rem; }
+    .buono { margin: 0.5rem 0; padding: 0.5rem; border: 1px solid #ccc; }
+    button { margin-left: 0.5rem; }
+  </style>
 </head>
 <body data-server-no-reload>
+
   <h2>Stato del Contributo</h2>
   <div class="box">
     <p><strong>Contributo disponibile:</strong> <span id="disponibile">500</span> €</p>
@@ -84,7 +33,7 @@
       <option value="Strumenti Musicali">Strumenti Musicali</option>
       <option value="Teatro">Teatro</option>
       <option value="Danza">Danza</option>
-      </select>
+    </select>
     <input type="number" id="valoreBuono" placeholder="Importo (€)" min="1">
     <button onclick="generaBuono()">Genera</button>
   </div>
@@ -95,6 +44,11 @@
   <script>
     let contributoTotale = 500;
     let buoni = [];
+
+    const tipologie = [
+      "Concerti", "Cinema", "Musica", "Eventi Culturali",
+      "Libri", "Musei", "Strumenti Musicali", "Teatro", "Danza"
+    ];
 
     function aggiornaStato() {
       let disponibile = contributoTotale;
@@ -121,7 +75,7 @@
       const tipologia = document.getElementById("tipologia").value;
       const importo = parseFloat(input.value);
 
-      if (isNaN(importo) || importo <= 0 || tipologia=="Default") {
+      if (isNaN(importo) || importo <= 0 || tipologia === "Default") {
         alert("Inserisci dati validi");
         return;
       }
@@ -136,7 +90,8 @@
         id: Date.now(),
         importo: importo,
         tipologia: tipologia,
-        consumato: false
+        consumato: false,
+        inModifica: false
       };
 
       buoni.push(nuovoBuono);
@@ -154,6 +109,26 @@
       }
     }
 
+    function modificaBuono(id) {
+      const buono = buoni.find(b => b.id === id);
+      if (buono && !buono.consumato) {
+        buono.inModifica = true;
+        mostraBuoni();
+      }
+    }
+
+    function salvaModifica(id) {
+      const select = document.getElementById(`select-${id}`);
+      const nuovaTipologia = select.value;
+
+      const buono = buoni.find(b => b.id === id);
+      if (buono) {
+        buono.tipologia = nuovaTipologia;
+        buono.inModifica = false;
+        mostraBuoni();
+      }
+    }
+
     function mostraBuoni() {
       const lista = document.getElementById("listaBuoni");
       lista.innerHTML = '';
@@ -161,13 +136,40 @@
       buoni.forEach(buono => {
         const div = document.createElement("div");
         div.className = "buono";
-        div.textContent = `Buono da €${buono.importo.toFixed(2)} - ${buono.tipologia} - ${buono.consumato ? "CONSUMATO" : "DISPONIBILE"}`;
 
-        if (!buono.consumato) {
-          const btn = document.createElement("button");
-          btn.textContent = "Consuma";
-          btn.onclick = () => consumaBuono(buono.id);
-          div.appendChild(btn);
+        if (buono.inModifica) {
+          const select = document.createElement("select");
+          select.id = `select-${buono.id}`;
+          tipologie.forEach(t => {
+            const option = document.createElement("option");
+            option.value = t;
+            option.textContent = t;
+            if (t === buono.tipologia) option.selected = true;
+            select.appendChild(option);
+          });
+
+          div.innerHTML = `Buono da €${buono.importo.toFixed(2)} - `;
+          div.appendChild(select);
+
+          const btnSalva = document.createElement("button");
+          btnSalva.textContent = "Salva";
+          btnSalva.onclick = () => salvaModifica(buono.id);
+          div.appendChild(btnSalva);
+
+        } else {
+          div.textContent = `Buono da €${buono.importo.toFixed(2)} - ${buono.tipologia} - ${buono.consumato ? "CONSUMATO" : "DISPONIBILE"}`;
+
+          if (!buono.consumato) {
+            const btnConsuma = document.createElement("button");
+            btnConsuma.textContent = "Consuma";
+            btnConsuma.onclick = () => consumaBuono(buono.id);
+            div.appendChild(btnConsuma);
+
+            const btnModifica = document.createElement("button");
+            btnModifica.textContent = "Modifica";
+            btnModifica.onclick = () => modificaBuono(buono.id);
+            div.appendChild(btnModifica);
+          }
         }
 
         lista.appendChild(div);
@@ -176,7 +178,5 @@
 
     aggiornaStato();
   </script>
-
 </body>
 </html>
-
