@@ -138,21 +138,21 @@ input[type="email"]::placeholder {
 }
 input[type="text"]:focus,
 input[type="email"]:focus {
-  border-color: #ff4500;
+  border-color: #0080A7;
   outline: none;
 }
 button.register-button {
   padding: 1rem;
   font-size: 0.75rem;
   color: #f6f6f6;
-  background-color: #ff4500;
+  background-color: #0080A7;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 button.register-button:hover {
-  background-color: #e03d00;
+  background-color: #0080A7;
 }
 @media (max-width: 768px) {
   .background-frame {
