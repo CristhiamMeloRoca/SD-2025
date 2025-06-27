@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="it"></html>
+  <meta charset="UTF-8">
+  <title>Gestione Contributo e Buoni</title>
   <head>
     <title>Example page</title>
     <style>
@@ -60,6 +62,121 @@
       }
 
     </script>
-  </body>
+</head>
+<body data-server-no-reload>
+  <h2>Stato del Contributo</h2>
+  <div class="box">
+    <p><strong>Contributo disponibile:</strong> <span id="disponibile">500</span> €</p>
+    <p><strong>Contributo usato (buoni non consumati):</strong> <span id="nonConsumati">0</span> €</p>
+    <p><strong>Contributo usato (buoni consumati):</strong> <span id="consumati">0</span> €</p>
+  </div>
 
+  <h2>Genera un Buono</h2>
+  <div class="box">
+    <select id="tipologia">
+      <option value="Default">Default </option>
+      <option value="Concerti">Concerti</option>
+      <option value="Cinema">Cinema</option>
+      <option value="Musica">Musica</option>
+      <option value="Eventi Culturali">Eventi Culturali</option>
+      <option value="Libri">Libri</option>
+      <option value="Musei">Musei</option>
+      <option value="Strumenti Musicali">Strumenti Musicali</option>
+      <option value="Teatro">Teatro</option>
+      <option value="Danza">Danza</option>
+      </select>
+    <input type="number" id="valoreBuono" placeholder="Importo (€)" min="1">
+    <button onclick="generaBuono()">Genera</button>
+  </div>
+
+  <h2>Elenco Buoni</h2>
+  <div id="listaBuoni" class="box"></div>
+
+  <script>
+    let contributoTotale = 500;
+    let buoni = [];
+
+    function aggiornaStato() {
+      let disponibile = contributoTotale;
+      let nonConsumati = 0;
+      let consumati = 0;
+
+      for (let buono of buoni) {
+        if (buono.consumato) {
+          consumati += buono.importo;
+        } else {
+          nonConsumati += buono.importo;
+        }
+      }
+
+      disponibile -= (nonConsumati + consumati);
+
+      document.getElementById("disponibile").textContent = disponibile.toFixed(2);
+      document.getElementById("nonConsumati").textContent = nonConsumati.toFixed(2);
+      document.getElementById("consumati").textContent = consumati.toFixed(2);
+    }
+
+    function generaBuono() {
+      const input = document.getElementById("valoreBuono");
+      const tipologia = document.getElementById("tipologia").value;
+      const importo = parseFloat(input.value);
+
+      if (isNaN(importo) || importo <= 0 || tipologia=="Default") {
+        alert("Inserisci dati validi");
+        return;
+      }
+
+      const disponibile = parseFloat(document.getElementById("disponibile").textContent);
+      if (importo > disponibile) {
+        alert("Fondi insufficienti per generare questo buono.");
+        return;
+      }
+
+      const nuovoBuono = {
+        id: Date.now(),
+        importo: importo,
+        tipologia: tipologia,
+        consumato: false
+      };
+
+      buoni.push(nuovoBuono);
+      input.value = '';
+      aggiornaStato();
+      mostraBuoni();
+    }
+
+    function consumaBuono(id) {
+      const buono = buoni.find(b => b.id === id);
+      if (buono && !buono.consumato) {
+        buono.consumato = true;
+        aggiornaStato();
+        mostraBuoni();
+      }
+    }
+
+    function mostraBuoni() {
+      const lista = document.getElementById("listaBuoni");
+      lista.innerHTML = '';
+
+      buoni.forEach(buono => {
+        const div = document.createElement("div");
+        div.className = "buono";
+        div.textContent = `Buono da €${buono.importo.toFixed(2)} - ${buono.tipologia} - ${buono.consumato ? "CONSUMATO" : "DISPONIBILE"}`;
+
+        if (!buono.consumato) {
+          const btn = document.createElement("button");
+          btn.textContent = "Consuma";
+          btn.onclick = () => consumaBuono(buono.id);
+          div.appendChild(btn);
+        }
+
+        lista.appendChild(div);
+      });
+    }
+
+    aggiornaStato();
+  </script>
+
+</body>
 </html>
+
